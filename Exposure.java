@@ -1,97 +1,92 @@
 package edu.disease;
-import java.util.UUID;
 import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.Arrays;
+import java.util.UUID;
 
+/**
+ * Represents an exposure event for a patient.
+ */
 public class Exposure {
     private UUID patientId;
-    private String name;
-    private int age;
+    private LocalDateTime dateTime;
     private String exposureType;
 
-    public String getExposureType() {
-        return exposureType;
-    }
-
-    public void setExposureType(String exposureType) {
-        if (!exposureType.equals("D") && !exposureType.equals("I")) {
-            throw new IllegalArgumentException("Invalid exposure type! Only 'D' for direct exposure or 'I' for indirect exposure are allowed.");
-        }
-        this.exposureType = exposureType;
-    }
-
+    /**
+     * Constructs an Exposure object with the given patient ID.
+     *
+     * @param patientId The UUID of the patient.
+     */
     public Exposure(UUID patientId) {
         this.patientId = patientId;
     }
 
-    public Exposure(UUID patientId, String name, int age) {
-        this.patientId = patientId;
-        this.name = name;
-        this.age = age;
-    }
-
+    /**
+     * Gets the patient ID.
+     *
+     * @return The UUID of the patient.
+     */
     public UUID getPatientId() {
         return patientId;
     }
 
-    public String getName() {
-        return name;
+    /**
+     * Gets the date and time of the exposure.
+     *
+     * @return The date and time of the exposure.
+     */
+    public LocalDateTime getDateTime() {
+        return dateTime;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    /**
+     * Sets the date and time of the exposure.
+     *
+     * @param dateTime The date and time of the exposure.
+     */
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 
-    public int getAge() {
-        return age;
+    /**
+     * Gets the exposure type.
+     *
+     * @return The exposure type ("D" for direct, "I" for indirect).
+     */
+    public String getExposureType() {
+        return exposureType;
     }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
-}
-
-class Patient {
-    private UUID patientId;
-    private UUID[] diseaseIds;
-    private Exposure[] exposures;
-
-    public Patient(UUID patientId) {
-        this.patientId = patientId;
-        this.diseaseIds = new UUID[10];
-        this.exposures = new Exposure[20];
-    }
-
-    public void addDiseaseId(UUID diseaseId) {
-        int index = Arrays.asList(diseaseIds).indexOf(null);
-        if (index == -1) {
-            throw new IndexOutOfBoundsException("Disease IDs array is full.");
+    /**
+     * Sets the exposure type. Only accepts "D" or "I".
+     *
+     * @param exposureType The exposure type to set ("D" for direct, "I" for indirect).
+     * @throws IllegalArgumentException If exposure type is not "D" or "I".
+     */
+    public void setExposureType(String exposureType) {
+        if (!exposureType.equals("D") && !exposureType.equals("I")) {
+            throw new IllegalArgumentException("Exposure type must be 'D' or 'I'.");
         }
-        diseaseIds[index] = diseaseId;
+        this.exposureType = exposureType;
     }
 
-    public void addExposure(Exposure exposure) {
-        int index = Arrays.asList(exposures).indexOf(null);
-        if (index == -1) {
-            throw new IndexOutOfBoundsException("Exposures array is full.");
-        }
-        exposures[index] = exposure;
+    @Override
+    public int hashCode() {
+        return patientId.hashCode() + dateTime.hashCode();
     }
 
-    public UUID getPatientId() {
-        return patientId;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Exposure exposure = (Exposure) obj;
+        return patientId.equals(exposure.patientId) && dateTime.equals(exposure.dateTime);
     }
 
-	public long[] getDiseaseIds() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public long[] getExposures() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-    // Other getters, setters, equals, hashCode methods, etc.
+    @Override
+    public String toString() {
+        return "Exposure{" +
+                "patientId=" + patientId +
+                ", dateTime=" + dateTime +
+                ", exposureType='" + exposureType + '\'' +
+                '}';
+    }
 }
