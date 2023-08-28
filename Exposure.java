@@ -1,5 +1,4 @@
-package edu.disease.asn1;
-
+package edu.disease.asgn2;
 import java.util.Objects;
 import java.util.UUID ;
 import java.time.LocalDateTime;
